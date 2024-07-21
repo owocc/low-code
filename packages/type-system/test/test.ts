@@ -1,0 +1,31 @@
+const x = {
+  _events: Object,
+  _mutable: true,
+  id: 'bdd2fa96ef734951b4ccdd8eef80f43e',
+  parentNode: m,
+  parentKey: 'variables',
+  name: 'bc',
+  completionChildren: Array[0],
+  __aStructureError: null,
+  typeAnnotation: null,
+  __isCorrectTypeAnnotation: true,
+  __TypeAnnotation: ee,
+  logicTreeNodeExpanded: true,
+  __nodeType: Object,
+}
+
+const f = {
+  _events: Object,
+  _mutable: true,
+  id: 'eb36ee686b7c49b285951f826d1a62c5',
+  parentNode: m,
+  parentKey: 'variables',
+  name: 'ncc',
+  completionChildren: null,
+  __aStructureError: Object,
+  __init: false,
+  __editing: false,
+  __isCorrectTypeAnnotation: true,
+  __nodeType: Object,
+  typeName: null,
+}

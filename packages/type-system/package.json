@@ -1,0 +1,13 @@
+{
+  "name": "@low-code/type-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/reactivity": "^3.4.33"
+  }
+}

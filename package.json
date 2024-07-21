@@ -1,0 +1,16 @@
+{
+  "name": "low-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev":"turbo run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^2.0.8"
+  },
+  "packageManager": "pnpm@9.1.1"
+}
