@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Canvas from '@/views/flow/components/core/canvas.vue'
+import FlowCanvas from '@/views/flow/core/canvas/flow-canvas.vue'
 </script>
 <template>
   <div class="h-full">
-    <Canvas />
+    <FlowCanvas />
   </div>
 </template>

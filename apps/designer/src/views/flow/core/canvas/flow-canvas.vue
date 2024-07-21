@@ -2,10 +2,10 @@
 import { markRaw, ref } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
-import MiniMap from './mini-map/mini-map.vue'
-import { initialEdges, initialNodes } from './initial-elements.ts'
+import MiniMap from '@flow/components/core/mini-map/mini-map.vue'
+import { initialEdges, initialNodes } from '@flow/components/core/initial-elements'
 import Toolbar from '@/views/flow/components/core/toolbar/toolbar.vue'
-import TestNode from '../node/test.vue'
+import TestNode from '@/views/flow/components/node/test.vue'
 /**
 `useVueFlow` 提供：
 1. 一组方法与 VueFlow 实例进行交互（如 `fitView`、`setViewport`、`addEdges` 等）
