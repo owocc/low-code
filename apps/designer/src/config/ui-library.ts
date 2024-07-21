@@ -1,16 +1,13 @@
 import { type App } from 'vue'
-import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config'
-import Theme from '@primevue/themes/aura'
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
+import { definePreset } from '@primevue/themes'
 
 export const setupUILibrary = (app: App) => {
-  const config: PrimeVueConfiguration = {
+  const Theme = definePreset(Aura, {})
+  app.use(PrimeVue, {
     theme: {
-      preset: Theme,
-      options: {}
-      // options:{
-      //   darkModeSelector: 'light',
-      // }
+      preset: Theme
     }
-  }
-  app.use(PrimeVue, config)
+  })
 }

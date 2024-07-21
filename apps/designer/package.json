@@ -29,14 +29,15 @@
     "pinia": "^2.1.7",
     "primevue": "^4.0.0",
     "prismjs": "^1.29.0",
+    "tailwind-variants": "^0.2.1",
     "tailwindcss-primeui": "^0.3.4",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
+    "@neolibrary/nogl": "*",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@iconify-json/lucide": "^1.1.200",
-    "@low-code/type-system": "workspace:*",
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",

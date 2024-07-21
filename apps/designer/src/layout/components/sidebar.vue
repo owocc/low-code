@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import Menu from 'primevue/menu'
 import Logo from '@/components/icons/logo.vue'
@@ -39,8 +39,8 @@ const items = ref([
     label: '页面结构',
     items: [
       {
-        label:'还未开发',
-        icon:'i-lucide-circle-fading-plus'
+        label: '还未开发',
+        icon: 'i-lucide-circle-fading-plus'
       }
     ]
   }
