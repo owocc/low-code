@@ -6,7 +6,7 @@ import { Position, Handle } from '@vue-flow/core'
 </script>
 
 <template>
-  <div class="p-5 bg-white text-black rounded-lg">
+  <div class="p-5 bg-white rounded-lg border dark:bg-gray-800">
     <Handle type="target" :position="Position.Top" class="bg-slate-100 border" />
     <Handle type="source" :position="Position.Bottom" />
     <Handle type="source" :position="Position.Left" class="bg-slate-100 border" />

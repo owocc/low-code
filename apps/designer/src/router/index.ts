@@ -1,18 +1,12 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { type App } from 'vue'
-
+import { loadViewRoutes } from './modules'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    redirect: '/flow',
     component: () => import('@/layout/layout.vue'),
-    children: [
-      {
-        path: 'flow',
-        component: () => import('@/views/flow/flow-view.vue')
-      }
-    ]
+    children: [...loadViewRoutes()]
   }
 ]
 
@@ -23,6 +17,7 @@ const router = createRouter({
 
 export default router
 
+/** 加载路由 */
 export const setupRouter = (app: App) => {
   app.use(router)
 }

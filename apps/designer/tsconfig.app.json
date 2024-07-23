@@ -9,7 +9,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@flow/*": ["./src/views/flow/*"]
+      "@flow/*": ["./src/views/flow/*"],
+      "@page/*": ["./src/views/page/*"],
+      "@data/*": ["./src/views/data/*"],
+      "@process/*": ["./src/views/process/*"]
     }
   }
 }

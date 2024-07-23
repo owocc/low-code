@@ -11,7 +11,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@flow': fileURLToPath(new URL('./src/views/flow', import.meta.url))
+      '@flow': fileURLToPath(new URL('./src/views/flow', import.meta.url)),
+      '@page': fileURLToPath(new URL('./src/views/page', import.meta.url)),
+      '@data': fileURLToPath(new URL('./src/views/data', import.meta.url)),
+      '@process': fileURLToPath(new URL('./src/views/process', import.meta.url))
     }
   }
 })

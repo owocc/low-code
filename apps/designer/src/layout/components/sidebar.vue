@@ -1,55 +1,18 @@
 <script setup lang="ts">
+// import { type MenuItem } from 'primevue/menuitem'
+import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import Menu from 'primevue/menu'
 import Logo from '@/components/icons/logo.vue'
 import Tag from 'primevue/tag'
 import Badge from 'primevue/badge'
-const items = ref([
-  {
-    separator: true
-  },
-  {
-    label: '导航',
-    items: [
-      {
-        label: '页面',
-        icon: 'i-lucide-file'
-        // shortcut: '⌘+L'
-      },
-      {
-        label: '逻辑',
-        icon: 'i-lucide-bring-to-front'
-        // shortcut: '⌘+S'
-      },
-      {
-        label: '数据',
-        icon: 'i-lucide-database'
-        // shortcut: '⌘+S'
-      },
-      {
-        label: '流程',
-        icon: 'i-lucide-bar-chart-horizontal-big'
-      }
-    ]
-  },
-  {
-    separator: true
-  },
-  {
-    label: '页面结构',
-    items: [
-      {
-        label: '还未开发',
-        icon: 'i-lucide-circle-fading-plus'
-      }
-    ]
-  }
-])
+import { sidebarInitData } from '@/config/sidebar'
+const items = ref(sidebarInitData)
 </script>
 
 <template>
   <div class="card flex justify-center">
-    <Menu :model="items" class="w-full md:w-60">
+    <Menu :model="items" class="w-full md:w-60 overflow-y-auto">
       <template #start>
         <span class="inline-flex items-center gap-1 px-2 py-2">
           <Logo class="h-6" />
@@ -63,16 +26,28 @@ const items = ref([
 
       <template #item="{ item, props }">
         <!-- v-ripple -->
-        <a class="flex items-center" v-bind="props.action">
-          <span :class="item.icon" />
-          <span>{{ item.label }}</span>
-          <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
-          <span
-            v-if="item.shortcut"
-            class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
-            >{{ item.shortcut }}</span
-          >
-        </a>
+        <RouterLink
+          class="flex items-center"
+          v-bind="props.action"
+          :to="item.to"
+          active-class="bg-primary text-white rounded"
+        >
+          <template #default="{ isActive }">
+            <span :class="{ [item.icon]: true, 'text-white': isActive }" />
+            <span
+              :class="{
+                'text-white': isActive
+              }"
+              >{{ item.label }}</span
+            >
+            <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
+            <span
+              v-if="item.shortcut"
+              class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
+              >{{ item.shortcut }}</span
+            >
+          </template>
+        </RouterLink>
       </template>
       <!-- adbout -->
       <template #end>

@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "dev:d":"turbo run dev --filter=designer",
+    "dev:test":"turbo run dev --filter=test"
   },
   "keywords": [],
   "author": "",
