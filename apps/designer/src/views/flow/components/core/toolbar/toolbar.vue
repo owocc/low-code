@@ -6,11 +6,15 @@ import { useVueFlow } from '@vue-flow/core'
 const { fitView, zoomIn, zoomOut, getViewport } = useVueFlow()
 
 const onZoomInHandler = () => {
-  zoomIn()
+  zoomIn({
+    duration: 350
+  })
 }
 
 const onZoomOutHandler = () => {
-  zoomOut()
+  zoomOut({
+    duration: 350
+  })
 }
 
 function onFitViewHandler() {
@@ -22,7 +26,7 @@ const scaleSize = computed(() => getViewport().zoom.toFixed(2))
 </script>
 <template>
   <div class="absolute z-10 right-0 bottom-0 m-1 flex gap-1">
-    <ButtonGroup>
+    <ButtonGroup class="bg-primary rounded-full flex items-center">
       <Button
         v-tooltip="{ value: '搜索' }"
         icon="i-lucide-search"
@@ -30,9 +34,9 @@ const scaleSize = computed(() => getViewport().zoom.toFixed(2))
         rounded
       />
 
-      <span>
+      <div class="text-white text-sm w-10 text-center">
         {{ scaleSize }}
-      </span>
+      </div>
       <Button icon="i-lucide-plus" @click="onZoomInHandler" rounded />
       <Button icon="i-lucide-minus" @click="onZoomOutHandler" rounded />
 
