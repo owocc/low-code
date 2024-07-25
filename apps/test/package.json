@@ -14,10 +14,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "designer": "*",
-    "pinia": "^2.1.7",
-    "vue": "^3.4.29",
-    "vue-router": "^4.3.3"
+    "@shared/vue": "*",
+    "@web/utils": "*",
+    "designer": "*"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

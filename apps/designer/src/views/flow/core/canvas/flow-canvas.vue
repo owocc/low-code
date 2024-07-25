@@ -6,6 +6,7 @@ import MiniMap from '@flow/components/core/mini-map/mini-map.vue'
 import { initialEdges, initialNodes } from '@flow/components/core/initial-elements'
 import Toolbar from '@/views/flow/components/core/toolbar/toolbar.vue'
 import TestNode from '@/views/flow/components/node/test.vue'
+import TestEdge from '@flow/components/edge/test.vue'
 /**
 `useVueFlow` 提供：
 1. 一组方法与 VueFlow 实例进行交互（如 `fitView`、`setViewport`、`addEdges` 等）
@@ -57,28 +58,11 @@ onConnect((connection) => {
   addEdges(connection)
 })
 
-/**
-  要更新一个节点或多个节点，您可以
-* 1. 如果您正在使用 `v-model`，则更改节点对象
-
-* 2. 使用 `useVueFlow` 中的 `updateNode` 方法来更新节点
-
-* 3. 创建一个新的节点数组，并将其传递给 `nodes` ref
- */
-function updatePos() {
-  nodes.value = nodes.value.map((node) => {
-    return {
-      ...node,
-      position: {
-        x: Math.random() * 400,
-        y: Math.random() * 400
-      }
-    }
-  })
-}
-
 const nodeTypes = {
   testNode: markRaw(TestNode)
+}
+const edgeTypes = {
+  testEdge: markRaw(TestEdge)
 }
 </script>
 
@@ -92,6 +76,7 @@ const nodeTypes = {
     :min-zoom="0.2"
     :max-zoom="4"
     :nodeTypes="nodeTypes"
+    :edgeTypes="edgeTypes"
   >
     <Background pattern-color="#aaa" :gap="16" />
     <Toolbar />
