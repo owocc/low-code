@@ -1,145 +1,179 @@
-// 将这种对象
+// 一个通用的数据转换器，可以将一个对象或者对象数组转换为另一个对象或者对象数组,支持嵌套转换
+// 可以用 type 描述返回后类型,解析还未实现
 
-const obj = [
-  {
-    name: 'option',
-    type: 'str',
-    value: '1',
-    children: [
-      {
-        name: 'option',
-        type: 'str',
-        value: '2',
-        children: [
-          {
-            name: 'option',
-            type: 'str',
-            value: '3',
-          },
-        ],
-      },
-    ],
-    nf: {
-      nihao: 'haoah',
-    },
-  },
-  {
-    name: 'option',
-    type: 'str',
-    value: '1',
-    children: [
-      {
-        name: 'option',
-        type: 'str',
-        value: '2',
-        children: [
-          {
-            name: 'option',
-            type: 'str',
-            value: '3',
-          },
-        ],
-      },
-    ],
-    nf: {
-      nihao: 'haoah',
-    },
-  },
-]
-
-const transTo = {
-  key: 'option',
-  type: 'str',
-  value: '1',
-  stu: [
-    {
-      name: 'option',
-      type: 'str',
-      value: '2',
-      stu: [
-        {
-          name: 'option',
-          type: 'str',
-          value: '3',
-        },
-      ],
-    },
-  ],
-  trans: {
-    hello: 'haoah',
-  },
-}
-
-// 就是要将对象的 key 转换成 stu,或者是不指定的,提供一个json map,下面的函数根据这个map转换对象
-
-const tMap = {
-  key: 'name',
-  stu: 'children', //这里如果是数组,就是数组的每一个都要转换,这里要如何处理呢..就没一个都判断一下,如果是数组就递归调用,如果是对象呢,就直接给它
-  type: 'type',
-  value: 'value',
-  trans: {
-    hello: 'nf.nihao',
-  },
-}
-
-export const transform = <T extends Record<string, any>>(map: T) => {
-  const then = () => {}
-  const pipe = () => {}
-  return {
-    then,
-    pipe,
-  }
-}
-
-type TMap = Record<string | number | symbol, any>
+type KeyMap = Record<string | number | symbol, any>
 type AnyObject = Record<string, any>
 
-function getValueByPath(obj: AnyObject, path: string): any {
-  return path
-    .split('.')
-    .reduce(
-      (acc, part) => (acc && acc[part] !== undefined ? acc[part] : null),
-      obj
-    )
-}
+const getValueByPath = (obj: AnyObject, path: string): any => {
 
-export function transformObject<Result extends AnyObject>(
-  obj: AnyObject,
-  map: TMap
-): Result {
-  const result: AnyObject = {}
+  if (typeof path !== 'string') {
+    return null
+  }
 
-  for (const [newKey, oldKey] of Object.entries(map)) {
-    if (Array.isArray(obj[oldKey])) {
-      result[newKey] = obj[oldKey].map((item: AnyObject) =>
-        transformObject(item, map)
+  const paths = path.split('|')
+
+
+  for (const p of paths) {
+    const value = p
+      .split('.')
+      .reduce(
+        (acc, part) => (acc && acc[part] !== undefined ? acc[part] : null),
+        obj
       )
-    } else if (typeof oldKey === 'object') {
-      result[newKey] = transformObject(obj, oldKey)
-    } else {
-      const value = getValueByPath(obj, oldKey)
-      result[newKey] = value !== undefined ? value : null
+    if (value !== null && value !== undefined) {
+      return value
     }
   }
-
-  return result as Result
+  return null
 }
 
-export function transformArray<Result extends AnyObject>(
-  array: AnyObject[],
-  map: TMap
-): Result[] {
-  return array.map((item) => transformObject(item, map))
+const applyOperations = (value: any, operations: string[]): any => {
+  return operations.reduce((acc, operation) => {
+    switch (operation) {
+      case 'array':
+        return Array.isArray(acc) ? acc : acc !== null ? [acc] : []
+      case 'parse':
+        try {
+          if (typeof acc === 'string') {
+            return acc.trim() == '' ? null : JSON.parse(acc)
+          }
+          return acc
+        } catch {
+          return null
+        }
+      // 可以在这里添加更多操作
+      default:
+        return acc
+    }
+  }, value)
 }
-type TType = {
-  key: string
-  stu: TType[]
-  type: string
-  value: string
-  trans: {
-    hello: string
+
+const parsePathAndOperations = (
+  path: any
+): { path: string; operations: string[] } => {
+
+  let temp: string = ''
+  console.log(path, 'pppppp')
+  if (typeof path === 'object') {
+    console.log(path)
+  }
+  switch (true) {
+    case typeof path === 'string':
+      temp = path
+      break
+    case typeof path === 'object':
+      if (path.__key__) {
+        // parsePathAndOperations(path.__key__)
+        temp = path.__key__
+      }
+      break
+  }
+
+  const [parsedPath, ...operations] = temp.split('&')
+  return { path: parsedPath, operations }
+}
+
+
+// 一些帮助方法，在这里导出
+
+export const defineTransformersMap = <T>(map: Partial<Record<keyof T, any>>) =>
+  map
+
+export const transformserObject = <T, R>(map: KeyMap) => {
+  const transformObj = (obj: AnyObject): R => {
+    const result: AnyObject = {}
+    for (const [newKey, oldKey] of Object.entries(map)) {
+
+      //解析出 path 和 operations
+      const { path, operations } = parsePathAndOperations(oldKey)
+      let value = getValueByPath(obj, path)
+      //操作符处理,如果有操作符,则执行,否则直接赋值
+      if (operations.length > 0) {
+        value = applyOperations(value, operations)
+      }
+
+      switch (true) {
+        case Array.isArray(value) && operations.includes('extend'):
+          result[newKey] = value.map(transformObj)
+          break
+        case Array.isArray(value) && typeof oldKey === 'object':
+          {
+            const newMap = JSON.parse(JSON.stringify(oldKey))
+            delete newMap.__key__
+            const { transformObj: transformSonObj } = transformserObject(newMap)
+            result[newKey] = value.map((item) => {
+              return transformSonObj(item)
+            })
+          }
+          break
+        case typeof oldKey === 'object' && value !== null:
+          {
+            console.log('....')
+            if (oldKey.__key__) {
+
+            } else {
+              console.log(oldKey)
+            }
+
+            const nweMap = JSON.parse(JSON.stringify(oldKey))
+            delete nweMap.__key__
+            //还有一种可能就是需要从顶级开始转换,比如
+
+            /**
+             * interface RestFulApi1 {
+                id: number
+                name: string
+                age: number,
+                info: {
+                  address: string,
+                  phone: string
+                }
+              }
+
+              interface RestFulApi2 {
+                id: number
+                name: string
+                age: number,
+                address: string,
+                phone: string
+              }
+             * 
+             */
+
+            //要转换上面这种情况,可能需要是一个新的map,也可能直接从当前对象身上取值
+            console.log(value)
+            //创建新的Map映射,然后递归调用
+            const { transformObj: transformSonObj } = transformserObject(nweMap)
+            result[newKey] = transformSonObj(value)
+          }
+          break
+        default:
+          result[newKey] = value !== undefined ? value : null
+          break
+      }
+    }
+    return result as R
+
+  }
+
+  const parse = (obj: any): T => {
+    // 未实现
+    return {} as T
+  }
+
+  return {
+    transformObj,
+    parse
   }
 }
-export const test = () => {
-  return transformArray<TType>(obj, tMap)
+
+// 数组对象转换,这里只是简单的调用,如果有嵌套,则需要递归调用
+export const transformserArray = <T, R>(map: KeyMap) => {
+  const { transformObj, parse } = transformserObject<T, R>(map)
+  const transformArray = (array: AnyObject[]): R[] => {
+    return array.map((item) => transformObj(item))
+  }
+  return {
+    transformArray
+  }
 }
