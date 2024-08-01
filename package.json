@@ -7,8 +7,9 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:d":"turbo run dev --filter=designer",
-    "dev:test":"turbo run dev --filter=test"
+    "dev:d": "turbo run dev --filter=designer",
+    "dev:test": "turbo run dev --filter=test",
+    "test:suraimu": "turbo run test --filter=suraimu"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +19,8 @@
   },
   "workspaces": [
     "apps/**/**",
-    "packages/**/**"
+    "packages/**/**",
+    "shared/**/**"
   ],
   "packageManager": "npm@10.2.4"
 }

@@ -1,0 +1,15 @@
+{
+  "name": "suraimu",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@shared/lib": "*"
+  }
+}
