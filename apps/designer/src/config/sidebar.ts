@@ -7,9 +7,6 @@ export interface SidebarItem extends MenuItem {
 
 export const sidebarInitData: Array<SidebarItem> = [
   {
-    separator: true
-  },
-  {
     label: '导航',
     items: [
       {
