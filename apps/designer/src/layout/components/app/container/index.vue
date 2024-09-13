@@ -4,9 +4,9 @@ import SplitterPanel from 'primevue/splitterpanel';
 </script>
 
 <template>
-    <Splitter layout="vertical" class="flex-1">
+    <Splitter layout="vertical" class="flex-1 border rounded-lg overflow-hidden">
         <SplitterPanel :size="95">
-            <Splitter class="flex-1">
+            <Splitter class="flex-1 h-full">
                 <SplitterPanel :size="20" :min-size="5" class="max-w-[40%]">
                     <slot name="sidebar" />
                 </SplitterPanel>
